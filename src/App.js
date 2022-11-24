@@ -3,9 +3,16 @@ import data from "./data";
 function App() {
   const [count, setCount] = useState(0);
   const [text, setText] = useState([]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Hello");
+    let test = [];
+    for (let index = 0; index < count; index++) {
+      let paragraph = data[Math.floor(Math.random() * data.length)];
+      test = [...test, paragraph];
+      console.log("paragraph", paragraph);
+    }
+    setText(test);
   };
 
   return (
@@ -18,8 +25,15 @@ function App() {
           name="amount"
           id="amount"
           value={count}
-          onChange={() => {
-            setCount(count + 1);
+          onChange={(e) => {
+            let input = e.target.value;
+            if (input <= 0) {
+              input = 1;
+            }
+            if (input > 50) {
+              input = 50;
+            }
+            setCount(input);
           }}
         />
         <button type="submit" className="btn">
@@ -27,14 +41,9 @@ function App() {
         </button>
       </form>
       <article className="lorem-text">
-        <p>
-          Lorem ipsusdfsd sldfjskdlfjksldjf sdfkjsdflkjsdf mxskdfhdkls
-          sdflksdjfksd jf
-        </p>
-        <p>
-          Lorem ipsusdfsd sldfjskdlfjksldjf sdfkjsdflkjsdf mxskdfhdkls
-          sdflksdjfksd jf
-        </p>
+        {text.map((paragraph, index) => {
+          return <p key={index}>{paragraph}</p>;
+        })}
       </article>
     </section>
   );
